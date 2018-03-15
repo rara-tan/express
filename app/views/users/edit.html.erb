@@ -1,0 +1,27 @@
+<div>
+  <div>
+    <%= form_for(@user) do |f| %>
+      <div>
+        <%= f.label :name, '名前' %>
+        <%= f.text_field :name %>
+      </div>
+      <div>
+        <%= f.label :email, 'メールアドレス' %>
+        <%= f.email_field :email %>
+      </div>
+      <div>
+        <%= f.label :introduction, '自己紹介' %>
+        <%= f.text_field :introduction %>
+      </div>
+      <div>
+        <%= f.label :password, 'パスワード' %>
+        <%= f.password_field :password %>
+      </div>
+      <div>
+        <%= f.label :password_confirmation, 'パスワード確認' %>
+        <%= f.password_field :password_confirmation %>
+      </div>
+      <%= f.submit '更新' %>
+    <% end %>
+  </div>
+</div>
