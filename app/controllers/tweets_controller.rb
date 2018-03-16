@@ -5,9 +5,11 @@ class TweetsController < ApplicationController
   def create
     @tweet = current_user.tweets.build(tweet_params)
     if @tweet.save
+      flash[:success] = 'ツイートしました。'
       redirect_to root_url
     else
       @tweets = current_user.tweets.order('created_at DESC').page(params[:page])
+      flash[:danger] = 'ツイートに失敗しました。'
       render 'toppages/index'
     end
   end
@@ -15,7 +17,8 @@ class TweetsController < ApplicationController
   def destroy
     @tweet.destroy
     @tweets = current_user.tweets.order('created_at DESC').page(params[:page])
-    render 'toppages/index'
+    flash[:success] = 'ツイートを削除しました。'
+    redirect_to root_url
   end
   
   def edit

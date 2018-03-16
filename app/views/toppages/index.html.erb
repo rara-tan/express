@@ -1,38 +1,51 @@
 <% if logged_in? %>
-  <p>ログインユーザ: <%= current_user.name %></p>
-  <ul>
-    <% @tweets.each do |tweet| %>
-      <li>
-        <div>
-          <%= link_to tweet.user.name, user_path(tweet.user) %> <span>posted at <%= tweet.created_at %></span>
+<p>ユーザ: <%= current_user.name %></p>
+  <div class="row">
+    <aside class="col-xs-4">
+      <%= form_for(@tweet) do |f| %>
+        <div class="form-group">
+          <%= f.text_area :content, class: 'form-control', rows: 5, placeholder: "今日は..." %>
         </div>
-        <div>
-          <p><%= tweet.content %></p>
+        <div class="text-right">
+          <%= f.submit 'ツイートする', class: "btn btn-primary" %>
         </div>
-        <div>
-          <%= link_to '削除', tweet, method: :delete, data: { confirm: "本当に消去してもよいですか" } %>
-        </div>
-      </li>
-    <% end %>
-  </ul>
-  <div>
-    <%= form_for(@tweet) do |f| %>
-      <div>
-        <%= f.label :content, '内容' %>
-        <%= f.text_field :content %>
-      </div>
-      <%= f.submit 'ツイートする' %>
-    <% end %>
+      <% end %>
+    </aside>
+    <div class="col-xs-8">
+      <ul>
+        <% @tweets.each do |tweet| %>
+          <li class="media">
+            <div class="media-left">
+              <img class="media-object img-rounded" src="<%= gravatar_url(tweet.user, { size: 50 }) %>" alt="">
+            </div>
+            <div class="media-body">
+              <div>
+                <strong><%= link_to tweet.user.name, user_path(tweet.user) %></strong>
+                <span><%= tweet.created_at.strftime('%Y/%m/%d %H:%M:%S') %></span>
+              </div>
+              <div>
+                <p><%= tweet.content %></p>
+              </div>
+              <div>
+                <%= link_to "編集", edit_tweet_path(tweet), class: "btn btn-success btn-xs" %>
+                <%= link_to "削除", tweet, method: :delete, data: { confirm: "本当に削除してもよいですか" }, class: "btn btn-danger btn-xs" %>
+              </div>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    </div>
   </div>
 <% else %>
-  <div>
-    <h1>Expressへようこそ</h1>
-    <%= link_to '新規登録する', signup_path %>
+  <div class="center jumbotron">
+    <div class="text-center">
+      <h1>Expressへようこそ！</h1>
+      <p>...</p>
+      <%= link_to '新規登録', signup_path, class: 'btn btn-lg btn-primary' %>
+    </div>
   </div>
 <% end %>
 
 <!--DMボタン-->
 <!--友達を探すボタン-->
 <!--タイムライン-->
-<!--フォロー-->
-<!--フォロワー-->
