@@ -6,9 +6,21 @@ class User < ApplicationRecord
                     uniqueness: { case_sensitive: false }
   validates :introduction, length: { maximum: 500 }
   has_many  :tweets
-  has_many  :rerationships
+  has_many  :relationships
   has_many  :followings, through: :relationships, source: :follow
   has_many  :reverses_relationship, class_name: 'Relationship', foreign_key: 'follow_id'
   has_many  :followers, through: :reverses_relationship, source: :user
   has_secure_password
+  
+  def follow(other_user)
+    self.relationships.create(follow_id: other_user.id)
+  end
+  
+  def unfollow(other_user)
+    self.relationships.find_by(follow_id: other_user.id).destroy
+  end
+  
+  def following?(other_user)
+    self.followings.include?(other_user)
+  end
 end
