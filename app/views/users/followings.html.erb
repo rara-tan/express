@@ -25,10 +25,30 @@
   </aside>
   <div class="col-xs-8">
     <ul class="nav nav-tabs">
-      <li class="active"><%= link_to 'ツイート', user_path(@user) %></li>
-      <li><%= link_to 'フォロー', followings_user_path(@user) %></li>
+      <li><%= link_to 'ツイート', user_path(@user) %></li>
+      <li class="active"><%= link_to 'フォロー', followings_user_path(@user) %></li>
       <li><%= link_to 'フォロワー', followers_user_path(@user) %></li>
     </ul>
-    <%= render 'tweets/tweets', tweets: @tweets %>
+    <ul class="media-list">
+      <% @followings.each do |user| %>
+        <li class="media">
+          <div class="media-left">
+            <img class="media-object img-rounded" src="<%= gravatar_url(user, { size: 50 }) %>" alt="">
+          </div>
+          <div class="media-body">
+            <div>
+              <%= link_to user.name, user_path(user) %>
+              <% if current_user.following?(user) %>
+                <span class="label label-info">フォロー中</span>
+              <% end %>
+            </div>
+            <div>
+              <p><%= link_to 'プロフィール', user_path(user) %></p>
+            </div>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+    <%= paginate @followings %>
   </div>
 </div>
