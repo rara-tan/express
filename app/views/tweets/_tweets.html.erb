@@ -13,11 +13,24 @@
           <p><%= tweet.content %></p>
         </div>
         <div>
+          <% if tweet.likes.count != 0 %>
+            <%= link_to tweet.likes.count.to_s + "人", root_url, data: {toggle: "tooltip"}, 'data-original-title': tweet.likes.last.user.name + "...", 'data-placement': 'top' %><span>がいいねしています</span><br>
+          <% end %>
           <% if current_user == tweet.user %>
             <%= link_to "編集", edit_tweet_path(tweet), class: "btn btn-success btn-xs" %>
             <%= link_to "削除", tweet, method: :delete, data: { confirm: "本当に削除してもよいですか" }, class: "btn btn-danger btn-xs" %>
           <% else %>
-            <%= link_to "編集", edit_tweet_path(tweet), class: "btn btn-success btn-xs" %>
+            <% if current_user.like?(tweet) %>
+              <%= form_for(current_user.likes.find_by(tweet_id: tweet.id), html: { method: :delete }) do |f| %>
+                <%= hidden_field_tag :tweet_id, tweet.id %>
+                <%= f.submit 'いいね取り消し', class: 'btn btn-danger btn-xs' %>
+              <% end %>
+            <% else %>
+              <%= form_for(current_user.likes.build) do |f| %>
+                <%= hidden_field_tag :tweet_id, tweet.id %>
+                <%= f.submit 'いいね', class: 'btn btn-primary btn-xs' %>
+              <% end %>
+            <% end %>
           <% end %>
         </div>
       </div>
@@ -25,3 +38,9 @@
   <% end %>
   <%= paginate tweets %>
 </ul>
+
+<script>
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+</script>

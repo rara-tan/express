@@ -10,6 +10,8 @@ class User < ApplicationRecord
   has_many  :followings, through: :relationships, source: :follow
   has_many  :reverses_relationship, class_name: 'Relationship', foreign_key: 'follow_id'
   has_many  :followers, through: :reverses_relationship, source: :user
+  has_many  :likes
+  has_many  :liking_tweets, through: :likes, source: :tweet
   has_secure_password
   
   def follow(other_user)
@@ -22,5 +24,17 @@ class User < ApplicationRecord
   
   def following?(other_user)
     self.followings.include?(other_user)
+  end
+  
+  def like(tweet)
+    self.likes.create(tweet_id: tweet.id)
+  end
+  
+  def unlike(tweet)
+    self.likes.find_by(tweet_id: tweet.id).destroy
+  end
+  
+  def like?(tweet)
+    self.likes.exists?(tweet_id: tweet.id)
   end
 end
