@@ -1,24 +1,24 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+# express
+Twitterの簡易版です。
+文字のツイートやユーザフォローだけでなく、画像の投稿やダイレクトメッセージも実施できます。
 
-Things you may want to cover:
+# 実行環境
+* Ruby 2.4.1
+* Rails 5.0.6
+* MySQL 5.5.58
+* ImageMagick 6.7.8-9 (ImageMagickのバージョンに注意)
 
-* Ruby version
+# セットアップ
+```
+bundle install --without production
+```
+```
+rails db:migrate
+```
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+# 使い方
+* ユーザ登録・ログイン後、マイページでプロフィールを編集する。
+* トップページからツイートを投稿する。写真も同時にツイートできる。
+* 画面右上の「ユーザを探す」からフォロー・ダイレクトメッセージをしたいユーザを探す。
