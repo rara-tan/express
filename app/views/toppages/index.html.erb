@@ -2,11 +2,19 @@
   <div class="row">
     <aside class="col-xs-4">
       <%= form_for(@tweet) do |f| %>
+        <%= render 'layouts/error_messages', model: f.object %>
         <div class="form-group">
           <%= f.text_area :content, class: 'form-control', rows: 5, placeholder: "今日は..." %>
         </div>
+        <div class="input-group">
+          <input type="text" id="photoCover" class="form-control" placeholder="ファイルを選択してください">
+          <span class="input-group-btn"><button type="button" class="btn btn-info" onclick="$('input[id=tweet_image]').click();"><span class="glyphicon glyphicon-file" aria-hidden="true"></span></button></span>
+          <%= f.label :image, style: "display:none" %>
+          <%= f.file_field :image, style: "display:none" %>
+        </div>
+        <br>
         <div class="text-right">
-          <%= f.submit 'ツイートする', class: "btn btn-primary" %>
+          <p><%= f.submit 'ツイートする', class: "btn btn-primary" %></p>
         </div>
       <% end %>
     </aside>
@@ -18,12 +26,14 @@
   <div class="center jumbotron">
     <div class="text-center">
       <h1>Expressへようこそ！</h1>
-      <p>...</p>
+      <p>Expressは簡易版のTwitterです。</p>
       <%= link_to '新規登録', signup_path, class: 'btn btn-lg btn-primary' %>
     </div>
   </div>
 <% end %>
 
-<!--DMボタン-->
-<!--友達を探すボタン-->
-<!--タイムライン-->
+<script>
+  $('input[id=tweet_image]').change(function() {
+    $('#photoCover').val($(this).val());
+  });
+</script>

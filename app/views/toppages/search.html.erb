@@ -1,0 +1,12 @@
+<div class="row">
+  <aside class="col-xs-4">
+    <div class="jumbotron">
+      <h2><%= @tweets_count %>件のツイート</h2>
+      <p>検索ワード:<%= @search_string %></p>
+      <p><%= link_to 'トップページへ戻る', root_path, class: 'btn btn-lg btn-success' %></p>
+    </div>
+  </aside>
+  <div class="col-xs-8">
+    <%= render 'tweets/tweets', tweets: @tweets %>
+  </div>
+</div>

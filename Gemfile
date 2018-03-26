@@ -60,3 +60,18 @@ gem 'pry-byebug', group: :development
 
 # Use dotenv to load environment variables
 gem 'dotenv-rails'
+
+# Use carrierwave to upload photos
+gem 'carrierwave', '~> 1.0'
+
+# Use rmagick to change the size of photos
+gem 'rmagick'
+
+gem 'data-confirm-modal'
+
+# Use pg as the database for production environment
+group :production do
+  gem 'pg', '0.21.0'
+end
+
+gem 'rails-i18n'

@@ -1,27 +1,44 @@
-<div>
-  <div>
+<div class="text-center">
+  <h1>プロフィール編集</h1>
+</div>
+
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
     <%= form_for(@user) do |f| %>
-      <div>
-        <%= f.label :name, '名前' %>
-        <%= f.text_field :name %>
+      <%= render 'layouts/error_messages', model: f.object %>
+      <div class="form-group">
+        <%= f.label :name, '名前　' %><span class="label label-danger">必須</span>
+        <%= f.text_field :name, class: "form-control", placeholder: "名前を入力" %>
       </div>
-      <div>
-        <%= f.label :email, 'メールアドレス' %>
-        <%= f.email_field :email %>
+      <div class="form-group">
+        <%= f.label :email, 'メールアドレス　' %><span class="label label-danger">必須</span>
+        <%= f.email_field :email, class: "form-control", placeholder: "メールアドレスを入力" %>
       </div>
-      <div>
+      <div class="form-group">
+        <%= f.label :job, '職業' %>
+        <%= f.text_field :job, class: "form-control", placeholder: "職業を入力" %>
+      </div>
+      <div class="form-group">
+        <%= f.label :residence, '住居' %>
+        <%= f.text_field :residence, class: "form-control", placeholder: "住んでいる地域を入力" %>
+      </div>
+      <div class="form-group">
+        <%= f.label :hobby, '趣味' %>
+        <%= f.text_field :hobby, class: "form-control", placeholder: "趣味を入力" %>
+      </div>
+      <div class="form-group">
         <%= f.label :introduction, '自己紹介' %>
-        <%= f.text_field :introduction %>
+        <%= f.text_field :introduction, class: "form-control", placeholder: "自己紹介文を入力" %>
       </div>
-      <div>
+      <div class="form-group">
         <%= f.label :password, 'パスワード' %>
-        <%= f.password_field :password %>
+        <%= f.password_field :password, class: "form-control", placeholder: "パスワードを入力" %>
       </div>
-      <div>
+      <div class="form-group">
         <%= f.label :password_confirmation, 'パスワード確認' %>
-        <%= f.password_field :password_confirmation %>
+        <%= f.password_field :password_confirmation, class: "form-control", placeholder: "確認用パスワードを入力" %>
       </div>
-      <%= f.submit '更新' %>
+      <%= f.submit 'プロフィール更新', class: "btn btn-lg btn-primary btn-block" %>
     <% end %>
   </div>
 </div>

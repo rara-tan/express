@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180318122852) do
+ActiveRecord::Schema.define(version: 20180326125412) do
 
   create_table "likes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "user_id",    null: false
@@ -20,6 +20,17 @@ ActiveRecord::Schema.define(version: 20180318122852) do
     t.index ["tweet_id"], name: "index_likes_on_tweet_id", using: :btree
     t.index ["user_id", "tweet_id"], name: "index_likes_on_user_id_and_tweet_id", unique: true, using: :btree
     t.index ["user_id"], name: "index_likes_on_user_id", using: :btree
+  end
+
+  create_table "messages", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "content"
+    t.integer  "user_id"
+    t.integer  "partner_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["partner_id"], name: "index_messages_on_partner_id", using: :btree
+    t.index ["user_id", "partner_id"], name: "index_messages_on_user_id_and_partner_id", using: :btree
+    t.index ["user_id"], name: "index_messages_on_user_id", using: :btree
   end
 
   create_table "relationships", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -37,6 +48,7 @@ ActiveRecord::Schema.define(version: 20180318122852) do
     t.integer  "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string   "image"
     t.index ["user_id"], name: "index_tweets_on_user_id", using: :btree
   end
 
@@ -47,10 +59,15 @@ ActiveRecord::Schema.define(version: 20180318122852) do
     t.text     "introduction",    limit: 65535
     t.datetime "created_at",                    null: false
     t.datetime "updated_at",                    null: false
+    t.string   "job"
+    t.string   "residence"
+    t.string   "hobby"
   end
 
   add_foreign_key "likes", "tweets"
   add_foreign_key "likes", "users"
+  add_foreign_key "messages", "users"
+  add_foreign_key "messages", "users", column: "partner_id"
   add_foreign_key "relationships", "users"
   add_foreign_key "relationships", "users", column: "follow_id"
   add_foreign_key "tweets", "users"

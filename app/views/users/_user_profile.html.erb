@@ -1,0 +1,55 @@
+<div class="panel panel-primary">
+  <div class="panel-heading">
+    <h3 class="panel-title"><%= user.name %></h3>
+  </div>
+  <div class="panel-body">
+    <img class="media-object img-rounded img-responsive" src="<%= gravatar_url(user, { size: 500 }) %>" alt="">
+  </div>
+</div>
+<div class="panel panel-primary">
+  <div class="panel-heading">
+    <h3 class="panel-title">プロフィール</h3>
+  </div>
+  <ul class="list-group">
+    <li class="list-group-item"><strong>職業：</strong><%= user.job %></li>
+    <li class="list-group-item"><strong>住んでいる地域：</strong><%= user.residence %></li>
+    <li class="list-group-item"><strong>趣味：</strong><%= user.hobby %></li>
+    <li class="list-group-item"><strong>自己紹介：</strong><%= user.introduction %></li>
+  </ul>
+</div>
+<% if current_user != user %>
+  <% if current_user.following?(user) %>
+    <%= form_for(current_user.relationships.find_by(follow_id: user.id), html: { method: :delete }) do |f| %>
+      <%= hidden_field_tag :follow_id, user.id %>
+      <p><%= f.submit 'フォローをやめる', class: 'btn btn-danger btn-block' %></p>
+    <% end %>
+  <% else %>
+    <%= form_for(current_user.relationships.build) do |f| %>
+      <%= hidden_field_tag :follow_id, user.id %>
+      <p><%= f.submit 'フォローする', class: 'btn btn-success btn-block' %></p>
+    <% end %>
+  <% end %>
+<% else %>
+  <div class="text-right">
+    <p><%= link_to "プロフィール編集", edit_user_path(user), class: "btn btn-success btn-md" %></p>
+  </div>
+<% end %>
+<br>
+<% if user.tweets.any?{|tweet| tweet.image.present? } %>
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h3 class="panel-title">画像</h3>
+    </div>
+    <div class="row">
+      <% user.tweets.reverse.each do |tweet| %>
+        <% if tweet.image.present? %>
+      	  <div class="col-xs-12 col-md-6">
+	      	  <div class="thumbnail">
+		      	  <%= image_tag tweet.image %>
+      		  </div>
+    	    </div>
+	      <% end %>
+	    <% end %>
+    </div>
+  </div>
+<% end %>

@@ -10,16 +10,19 @@
         </button>
         <a class="navbar-brand" href="/">Express</a>
       </div>
-      <form class="navbar-form navbar-left">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="ツイートを検索">
-        </div>
-        <button type="submit" class="btn btn-default">検索</button>
-      </form>
+      <% if logged_in? %>
+        <% @tweet = Tweet.new %>
+        <%= form_for(@tweet, url: search_path, method: :get, html: {class: "navbar-form navbar-left"}) do |f| %>
+          <div class="form-group">
+            <%= f.text_field :search_string, class: 'form-control', placeholder: "ツイートを検索" %>
+          </div>
+          <%= f.submit '検索', class: "btn btn-default" %>
+        <% end %>
+      <% end %>
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav navbar-right">
           <% if logged_in? %>
-            <li><%= link_to 'Users', users_path %></li>
+            <li><%= link_to 'ユーザを探す', users_path %></li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= current_user.name %> <span class="caret"></span></a>
               <ul class="dropdown-menu">
@@ -33,7 +36,7 @@
             <li><%= link_to 'ログイン', login_path %></li>
           <% end %>
         </ul>
-      </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
+      </div>
+    </div>
   </nav>
 </header>

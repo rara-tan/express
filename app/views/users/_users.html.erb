@@ -1,0 +1,26 @@
+<% if users.any? %>
+  <ul class="media-list">
+    <% users.each do |user| %>
+      <li class="media">
+        <div class="media-left">
+          <img class="media-object img-rounded" src="<%= gravatar_url(user, { size: 50 }) %>" alt="">
+        </div>
+        <div class="media-body">
+          <div>
+            <%= user.name %>
+            <% if current_user.following?(user) %>
+              <span class="label label-info">フォロー中</span>
+            <% end %>
+          </div>
+          <ol class="breadcrumb">
+          	<li><span class="glyphicon glyphicon-home" aria-hidden="true"></span><%= link_to 'プロフィール', user_path(user) %></li>
+        	  <% if current_user != user %>
+              <li><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span><%= link_to 'ダイレクトメッセージ', message_path(user) %></li>
+            <% end %>
+          </ol>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+  <%= paginate users %>
+<% end %>

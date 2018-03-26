@@ -4,7 +4,10 @@ class User < ApplicationRecord
   validates :email, presence: true, length: { maximum: 255 },
                     format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i },
                     uniqueness: { case_sensitive: false }
-  validates :introduction, length: { maximum: 500 }
+  validates :introduction, length: { maximum: 255 }
+  validates :job, length: { maximum: 30 }
+  validates :residence, length: { maximum: 30 }
+  validates :hobby, length: { maximum: 30 }
   has_many  :tweets
   has_many  :relationships
   has_many  :followings, through: :relationships, source: :follow
@@ -12,6 +15,8 @@ class User < ApplicationRecord
   has_many  :followers, through: :reverses_relationship, source: :user
   has_many  :likes
   has_many  :liking_tweets, through: :likes, source: :tweet
+  has_many  :messages
+  
   has_secure_password
   
   def follow(other_user)

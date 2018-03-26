@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   root             to: 'toppages#index'
+  get 'search',    to: 'toppages#search'
   get 'signup',    to: 'users#new'
   get 'login',     to: 'sessions#new'
   post 'login',    to: 'sessions#create'
@@ -15,4 +16,5 @@ Rails.application.routes.draw do
   end
   resources :relationships, only: [:create, :destroy]
   resources :likes, only: [:create, :destroy]
+  resources :messages, only: [:show, :create, :destroy]
 end

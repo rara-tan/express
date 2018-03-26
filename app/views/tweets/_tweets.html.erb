@@ -11,13 +11,17 @@
         </div>
         <div>
           <p><%= tweet.content %></p>
+          <% if tweet.image.present? %>
+            <p><%= image_tag tweet.image %></p>
+          <% end %>
         </div>
         <div>
           <% if tweet.likes.count != 0 %>
-            <%= link_to tweet.likes.count.to_s + "人", root_url, data: {toggle: "tooltip"}, 'data-original-title': tweet.likes.last.user.name + "...", 'data-placement': 'top' %><span>がいいねしています</span><br>
+            <%= link_to tweet.likes.count.to_s + "人", "#", data: {toggle: "tooltip"}, 'data-original-title': tweet.likes.last.user.name + "...", 'data-placement': 'top' %><span>がいいねしています</span><br>
           <% end %>
           <% if current_user == tweet.user %>
-            <%= link_to "編集", edit_tweet_path(tweet), class: "btn btn-success btn-xs" %>
+            <%= link_to "編集", edit_tweet_path(tweet), remote: true, class: "btn btn-success btn-xs" %>
+            <div id="edit-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
             <%= link_to "削除", tweet, method: :delete, data: { confirm: "本当に削除してもよいですか" }, class: "btn btn-danger btn-xs" %>
           <% else %>
             <% if current_user.like?(tweet) %>

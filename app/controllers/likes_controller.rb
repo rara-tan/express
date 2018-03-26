@@ -5,13 +5,13 @@ class LikesController < ApplicationController
     tweet = Tweet.find(params[:tweet_id])
     current_user.like(tweet)
     flash[:success] = 'ツイートにいいねしました。'
-    redirect_to root_url
+    redirect_back(fallback_location: root_path)
   end
   
   def destroy
     tweet = Tweet.find(params[:tweet_id])
     current_user.unlike(tweet)
     flash[:success] = 'ツイートのいいねを取り消ししました。'
-    redirect_to root_url
+    redirect_back(fallback_location: root_path)
   end
 end

@@ -1,33 +1,12 @@
 <div class="row">
   <aside class="col-xs-4">
-    <div class="panel panel-primary">
-      <div class="panel-heading">
-        <h3 class="panel-title"><%= @user.name %></h3>
-      </div>
-      <div class="panel-body">
-        <img class="media-object img-rounded img-responsive" src="<%= gravatar_url(@user, { size: 500 }) %>" alt="">
-        <p><%= @user.introduction %></p>
-      </div>
-    </div>
-    <% if current_user != @user %>
-      <% if current_user.following?(@user) %>
-        <%= form_for(current_user.relationships.find_by(follow_id: @user.id), html: { method: :delete }) do |f| %>
-          <%= hidden_field_tag :follow_id, @user.id %>
-          <%= f.submit 'フォローをやめる', class: 'btn btn-danger btn-block' %>
-        <% end %>
-      <% else %>
-        <%= form_for(current_user.relationships.build) do |f| %>
-          <%= hidden_field_tag :follow_id, @user.id %>
-          <%= f.submit 'フォローする', class: 'btn btn-primary btn-block' %>
-        <% end %>
-      <% end %>
-    <% end %>
+    <%= render 'user_profile', user: @user %>
   </aside>
   <div class="col-xs-8">
     <ul class="nav nav-tabs">
-      <li class="active"><%= link_to 'ツイート', user_path(@user) %></li>
-      <li><%= link_to 'フォロー', followings_user_path(@user) %></li>
-      <li><%= link_to 'フォロワー', followers_user_path(@user) %></li>
+      <li class="active"><%= link_to user_path(@user) do %>ツイート <span class="badge"><%= @count_tweets %></span><% end %></li>
+      <li><%= link_to followings_user_path(@user) do %>フォロー <span class="badge"><%= @count_followings %></span><% end %></li>
+      <li><%= link_to followers_user_path(@user) do %>フォロワー <span class="badge"><%= @count_followers %></span><% end %></li>
     </ul>
     <%= render 'tweets/tweets', tweets: @tweets %>
   </div>

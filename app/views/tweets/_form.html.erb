@@ -1,0 +1,23 @@
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <%= form_for(@tweet, remote: true) do |f| %>
+      <%= render 'layouts/error_messages', model: f.object %>
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">ツイートの更新</h4>
+      </div>
+      <div class="modal-body form-group">
+        <div class="field">
+          <%= f.label :content, 'ツイート', style: "display:none" %>
+          <%= f.text_area :content, class: "form-control", rows: 5 %>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">閉じる</button>
+        <%= f.submit "更新", class: "btn btn-primary" %>
+      </div>
+    <% end %>
+  </div>
+</div>
